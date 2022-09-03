@@ -75,7 +75,7 @@ public class AirSim : ModuleRules
 
         bEnableExceptions = true;
 
-        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "ImageWrapper", "RenderCore", "RHI", "PhysXVehicles", "PhysicsCore", "PhysXVehicleLib", "PhysX", "APEX", "Landscape" });
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "HTTP", "InputCore", "ImageWrapper", "RenderCore", "RHI", "PhysXVehicles", "PhysicsCore", "PhysXVehicleLib", "PhysX", "APEX", "Landscape" });
         PrivateDependencyModuleNames.AddRange(new string[] { "UMG", "Slate", "SlateCore" });
 
         //suppress VC++ proprietary warnings
@@ -101,13 +101,6 @@ public class AirSim : ModuleRules
             PublicAdditionalLibraries.Add("dinput8.lib");
             PublicAdditionalLibraries.Add("dxguid.lib");
         }
-
-		if (Target.Platform == UnrealTargetPlatform.Linux)
-		{
-			// needed when packaging
-			PublicAdditionalLibraries.Add("stdc++");
-			PublicAdditionalLibraries.Add("supc++");
-		}
     }
 
     static void CopyFileIfNewer(string srcFilePath, string destFolder)
