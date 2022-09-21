@@ -5,7 +5,7 @@
     "ClockSpeed": 1.0,
     "SpectatorServerPassword": "password",
     "PawnPaths": {
-        "DefaultCar": { "PawnBP": "Class'/AirSim/VehicleAdv/Cars/TestCar/TestCarPawn.TestCarPawn_C'" }
+        "DefaultCar": { "PawnBP": "Class'/AirSim/VehicleAdv/Cars/QEV3/QEV3CarPawn.QEV3CarPawn_C'" }
     },
     "Vehicles": {
         "FSCar": {
