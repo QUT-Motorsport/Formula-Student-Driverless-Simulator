@@ -19,7 +19,20 @@ Then, inside the container:
 ```
 cd ~/Formula-Student-Driverless-Simulator/AirSim
 ./setup.sh
+```
+
+Clean (optional - useful if builds are playing up)
+```
+rm -rf build_debug
+```
+
+Build
+```
 ./build.sh
+```
+
+Run the unreal project
+```
 ~/UnrealEngine/Engine/Binaries/Linux/UE4Editor ~/Formula-Student-Driverless-Simulator/UE4Project/FSOnline.uproject
 ```
 

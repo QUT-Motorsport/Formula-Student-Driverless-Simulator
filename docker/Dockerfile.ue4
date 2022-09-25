@@ -8,11 +8,7 @@ RUN apt-get update && \
         wget \
         cmake \
         rsync \
-        # from setup.sh:
-        clang-9 \
-        clang++-9 \
-        libc++-9-dev \
-        libc++abi-9-dev \
+        gpg-agent \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 

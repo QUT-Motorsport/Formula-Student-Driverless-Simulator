@@ -298,6 +298,8 @@ __pycache__/
 /PythonClient/**/metrics/
 /PythonClient/**/airsim.egg-info/
 /PythonClient/**/dist/
+/llvm.sh
+/llvm.sh.1
 
 ### Xcode ###
 build/
