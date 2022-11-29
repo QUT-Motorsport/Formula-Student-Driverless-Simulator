@@ -192,7 +192,7 @@ void AirsimROSWrapper::create_ros_pubs_from_settings_json()
         set_nans_to_zeros_in_pose(*vehicle_setting);
 
         vehicle_name = curr_vehicle_name;
-        clock_pub = nh_->create_publisher<rosgraph_msgs::msg::Clock>("/clock", 10);
+        clock_pub = nh_->create_publisher<rosgraph_msgs::msg::Clock>("/fsds/clock", 10);
         global_gps_pub = nh_->create_publisher<sensor_msgs::msg::NavSatFix>("/fsds/gps", 10);
         imu_pub = nh_->create_publisher<sensor_msgs::msg::Imu>("/fsds/imu", 10);
         gss_pub = nh_->create_publisher<geometry_msgs::msg::TwistWithCovarianceStamped>("/fsds/gss", 10);
@@ -208,9 +208,9 @@ void AirsimROSWrapper::create_ros_pubs_from_settings_json()
         }
 
         if(!competition_mode_) {
-            odom_pub = nh_->create_publisher<nav_msgs::msg::Odometry>("testing_only/odom", 10);
-            track_pub = nh_->create_publisher<fs_msgs::msg::Track>("testing_only/track", 10);
-			extra_info_pub = nh_->create_publisher<fs_msgs::msg::ExtraInfo>("testing_only/extra_info", 10);
+            odom_pub = nh_->create_publisher<nav_msgs::msg::Odometry>("/fsds/testing_only/odom", 10);
+            track_pub = nh_->create_publisher<fs_msgs::msg::Track>("/fsds/testing_only/track", 10);
+			extra_info_pub = nh_->create_publisher<fs_msgs::msg::ExtraInfo>("/fsds/testing_only/extra_info", 10);
         }
         
         // iterate over camera map std::map<std::string, CameraSetting> cameras;
