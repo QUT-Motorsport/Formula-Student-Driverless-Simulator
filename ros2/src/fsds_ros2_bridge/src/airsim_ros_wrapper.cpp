@@ -390,12 +390,13 @@ sensor_msgs::msg::PointCloud2 AirsimROSWrapper::get_lidar_msg_from_airsim(const 
     if (lidar_data.point_cloud.size() > 3)
     {
         lidar_msg.height = 1;
-        lidar_msg.width = lidar_data.point_cloud.size() / 3;
+        lidar_msg.width = lidar_data.point_cloud.size() / 4;
 
-        lidar_msg.fields.resize(3);
+        lidar_msg.fields.resize(4);
         lidar_msg.fields[0].name = "x";
         lidar_msg.fields[1].name = "y";
         lidar_msg.fields[2].name = "z";
+        lidar_msg.fields[3].name = "intensity";
         int offset = 0;
 
         for (size_t d = 0; d < lidar_msg.fields.size(); ++d, offset += 4)
