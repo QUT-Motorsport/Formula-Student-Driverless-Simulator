@@ -44,21 +44,6 @@ target_link_libraries(fsds_ros2_bridge airsim_ros AirLib ${libcurl_LIBRARIES})
 ament_auto_add_executable(fsds_ros2_bridge_camera src/fsds_ros2_bridge_camera.cpp)
 target_link_libraries(fsds_ros2_bridge_camera AirLib ${OpenCV_LIBS})
 
-# install(TARGETS 
-#     #list of shared libraries
-#     airsim_ros
-#     # pd_position_controller_simple
-#     ARCHIVE DESTINATION lib/${PROJECT_NAME}/
-#     LIBRARY DESTINATION lib/${PROJECT_NAME}/
-# )
-
-# install(FILES 
-#   #list of necessary files (xml...)
-#   README.md
-#   # settings.json
-#   # nodelet_plugins.xml
-#   DESTINATION share/${PROJECT_NAME}/
-# )
 
 ament_auto_package(INSTALL_TO_SHARE launch)
 

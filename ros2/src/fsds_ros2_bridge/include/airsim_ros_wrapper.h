@@ -240,6 +240,7 @@ private:
 
     /// ROS Timers.
     rclcpp::TimerBase::SharedPtr odom_update_timer_;
+    rclcpp::TimerBase::SharedPtr track_publish_timer_;
     rclcpp::TimerBase::SharedPtr gps_update_timer_;
     rclcpp::TimerBase::SharedPtr imu_update_timer_;
     rclcpp::TimerBase::SharedPtr gss_update_timer_;

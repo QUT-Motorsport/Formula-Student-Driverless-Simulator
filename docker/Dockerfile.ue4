@@ -1,0 +1,15 @@
+FROM ghcr.io/epicgames/unreal-engine:dev-4.27
+
+USER root
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        # needed in setup and build scripts:
+        wget \
+        cmake \
+        rsync \
+        gpg-agent \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+USER ue4

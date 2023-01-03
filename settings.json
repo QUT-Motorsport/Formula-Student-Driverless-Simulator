@@ -5,97 +5,93 @@
     "ClockSpeed": 1.0,
     "SpectatorServerPassword": "password",
     "PawnPaths": {
-      "DefaultCar": { "PawnBP": "Class'/AirSim/VehicleAdv/Cars/TechnionCar/TechnionCarPawn.TechnionCarPawn_C'" }
+        "DefaultCar": { "PawnBP": "Class'/AirSim/VehicleAdv/Cars/TestCar/TestCarPawn.TestCarPawn_C'" }
     },
     "Vehicles": {
-      "FSCar": {
-        "DefaultVehicleState": "",
-        "EnableCollisionPassthrogh": false,
-        "EnableCollisions": true,
-        "AllowAPIAlways": true,
-        "RC":{
-            "RemoteControlID": -1
-        },
-        "Sensors": {
-          "Imu" : {
-            "SensorType": 2,
-            "Enabled": true
-          },
-          "Gps" : {
-            "SensorType": 3,
-            "Enabled": true
-          },
-          "Lidar1": {
-            "SensorType": 6,
-            "Enabled": true,
-            "X": 0.45, "Y": 0, "Z": 0.55,
-            "Roll": 0, "Pitch": 0, "Yaw" : 0,
-            "NumberOfLasers": 4,
-            "PointsPerScan": 4096,
-            "VerticalFOVUpper": 5,
-            "VerticalFOVLower": -5,
-            "HorizontalFOVStart": -90,
-            "HorizontalFOVEnd": 90,
-            "RotationsPerSecond": 10,
-            "DrawDebugPoints": false
-          },
-          "Lidar2": {
-            "SensorType": 6,
-            "Enabled": true,
-            "X": 1.20, "Y": 0, "Z": 0.2,
-            "Roll": 0, "Pitch": 0, "Yaw" : 0,
-            "NumberOfLasers": 4,
-            "PointsPerScan": 4096,
-            "VerticalFOVUpper": 5,
-            "VerticalFOVLower": -5,
-            "HorizontalFOVStart": -90,
-            "HorizontalFOVEnd": 90,
-            "RotationsPerSecond": 5,
-            "DrawDebugPoints": false
-          },
-          "GSS" : {
-            "SensorType": 7,
-            "Enabled": true
-          }
-        },
-        "Cameras": {
-          "cam1": {
-            "CaptureSettings": [
-            {
-                "ImageType": 0,
-                "Width": 785,
-                "Height": 785,
-                "FOV_Degrees": 90
-            }
-            ],
-            "X": -0.3,
-            "Y": -0.16,
-            "Z": 0.8,
-            "Pitch": 0.0,
-            "Roll": 0.0,
-            "Yaw": 0
-        },
-          "cam2": {
-            "CaptureSettings": [
-              {
-                "ImageType": 0,
-                "Width": 785,
-                "Height": 785,
-                "FOV_Degrees": 90
-              }
-            ],
-            "X": -0.3,
-            "Y": 0.16,
-            "Z": 0.8,
-            "Pitch": 0.0,
-            "Roll": 0.0,
-            "Yaw": 0.0
-          }
-        },
-        "X": 2, "Y": 0, "Z": 0,
-        "Pitch": 0, "Roll": 0, "Yaw": 0
-      }
+        "FSCar": {
+            "DefaultVehicleState": "",
+            "EnableCollisionPassthrogh": false,
+            "EnableCollisions": true,
+            "AllowAPIAlways": true,
+            "RC":{
+                "RemoteControlID": -1
+            },
+            "Sensors": {
+                "Imu" : {
+                    "SensorType": 2,
+                    "Enabled": true
+                },
+                "Gps" : {
+                    "SensorType": 3,
+                    "Enabled": true
+                },
+                "Lidar1": {
+                    "SensorType": 6,
+                    "Enabled": true,
+                    "X": 1.65, "Y": 0, "Z": 0.05,
+                    "Roll": 0, "Pitch": 0, "Yaw" : 0,
+                    "NumberOfLasers": 1,
+                    "PointsPerScan": 1000,
+                    "VerticalFOVUpper": 0,
+                    "VerticalFOVLower": 0,
+                    "HorizontalFOVStart": -90,
+                    "HorizontalFOVEnd": 90,
+                    "RotationsPerSecond": 10,
+                    "DrawDebugPoints": false
+                },
+                "Lidar2": {
+                    "SensorType": 6,
+                    "Enabled": true,
+                    "X": 1.65, "Y": 0, "Z": 0.05,
+                    "Roll": 0, "Pitch": 0, "Yaw" : 0,
+                    "NumberOfLasers": 32,
+                    "PointsPerScan": 32000,
+                    "VerticalFOVUpper": 10,
+                    "VerticalFOVLower": -10,
+                    "HorizontalFOVStart": -90,
+                    "HorizontalFOVEnd": 90,
+                    "RotationsPerSecond": 10,
+                    "DrawDebugPoints": false
+                },
+                "GSS" : {
+                    "SensorType": 7,
+                    "Enabled": true
+                }
+            },
+            "Cameras": {
+                "image_rect_color": {
+                    "CaptureSettings": [{
+                        "ImageType": 0,
+                        "Width": 640,
+                        "Height": 360,
+                        "FOV_Degrees": 90
+                    }],
+                    "X": -0.1,
+                    "Y": 0,
+                    "Z": 0.7,
+                    "Pitch": 0.0,
+                    "Roll": 0.0,
+                    "Yaw": 0.0
+                },
+                "depth_registered": {
+                    "CaptureSettings": [{
+                        "ImageType": 2,
+                        "Width": 640,
+                        "Height": 360,
+                        "FOV_Degrees": 90
+                    }],
+                    "X": -0.1,
+                    "Y": 0,
+                    "Z": 0.7,
+                    "Pitch": 0.0,
+                    "Roll": 0.0,
+                    "Yaw": 0.0
+                }
+            },
+            "X": 2, "Y": 0, "Z": 0,
+            "Pitch": 0, "Roll": 0, "Yaw": 0
+        }
     },
     "SubWindows": [
     ]
-  }
+}

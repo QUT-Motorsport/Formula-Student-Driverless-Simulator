@@ -1,0 +1,67 @@
+# BASED ON https://github.com/FS-Driverless/Formula-Student-Driverless-Simulator/blob/master/docker/Dockerfile
+
+ARG BASE_IMAGE=nvidia/vulkan:1.1.121-cuda-10.1-beta.1-ubuntu18.04
+FROM ${BASE_IMAGE}
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        python3 \
+        python3-pip \
+        sudo \
+        libglu1-mesa-dev \
+        xdg-user-dirs \
+        pulseaudio \
+        sudo \
+        vulkan-utils \
+        wget \
+        libvulkan1 \
+        mesa-vulkan-drivers \
+        x11-xserver-utils \
+        dirmngr \
+        gnupg2 \
+        unzip \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+RUN pip3 install --upgrade pip
+RUN pip3 install setuptools wheel
+
+# Enable Vulkan support
+ARG VULKAN_VERSION="1.2.148"
+ENV NVIDIA_DRIVER_CAPABILITIES compute,graphics,utility,display
+RUN export $(cat /etc/os-release | grep --color=never 'UBUNTU_CODENAME') && \
+    wget -qO - https://packages.lunarg.com/lunarg-signing-key-pub.asc | apt-key add - && \
+    wget -qO /etc/apt/sources.list.d/lunarg-vulkan-${VULKAN_VERSION}-${UBUNTU_CODENAME}.list \
+    https://packages.lunarg.com/vulkan/${VULKAN_VERSION}/lunarg-vulkan-${VULKAN_VERSION}-${UBUNTU_CODENAME}.list && \
+    apt-get update && apt-get install -y --no-install-recommends vulkan-sdk && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+RUN VULKAN_API_VERSION=`dpkg -s libvulkan1 | grep -oP 'Version: [0-9|\.]+' | grep -oP '[0-9|\.]+'` && \
+    mkdir -p /etc/vulkan/icd.d/ && \
+    echo \
+    "{\
+        \"file_format_version\" : \"1.0.0\",\
+        \"ICD\": {\
+            \"library_path\": \"libGLX_nvidia.so.0\",\
+            \"api_version\" : \"${VULKAN_API_VERSION}\"\
+        }\
+    }" > /etc/vulkan/icd.d/nvidia_icd.json
+
+
+ARG USERNAME
+ARG HOST_UID
+# create user
+RUN useradd \
+    -r \
+    -m \
+    -d /home/${USERNAME}/ \
+    -u ${HOST_UID} \
+    ${USERNAME}
+
+USER ${USERNAME}
+WORKDIR /home/${USERNAME}
+
+# download fsds binary
+RUN wget https://github.com/FS-Driverless/Formula-Student-Driverless-Simulator/releases/download/v2.1.0/fsds-v2.1.0-linux.zip && \
+    unzip fsds-v2.1.0-linux.zip && \
+    rm fsds-v2.1.0-linux.zip

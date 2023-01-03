@@ -184,7 +184,7 @@ void AirsimROSWrapper::initialize_ros()
     airsim_client_.enableApiControl(!manual_mode, vehicle_name);
 
     if(!competition_mode_) {
-        publish_track();
+        track_publish_timer_ = nh_->create_wall_timer(dseconds{10}, std::bind(&AirsimROSWrapper::publish_track, this));
     }
 }
 
@@ -219,35 +219,35 @@ void AirsimROSWrapper::create_ros_pubs_from_settings_json()
         set_nans_to_zeros_in_pose(*vehicle_setting);
 
         vehicle_name = curr_vehicle_name;
-        clock_pub = nh_->create_publisher<rosgraph_msgs::msg::Clock>("/clock", 10);
+        clock_pub = nh_->create_publisher<rosgraph_msgs::msg::Clock>("/fsds/clock", 10);
 
         if(enabled_sensors.gps){
-            global_gps_pub = nh_->create_publisher<sensor_msgs::msg::NavSatFix>("gps", 10);
+            global_gps_pub = nh_->create_publisher<sensor_msgs::msg::NavSatFix>("fsds/gps", 10);
         }
         
         if(enabled_sensors.imu){
-            imu_pub = nh_->create_publisher<sensor_msgs::msg::Imu>("imu", 10);
+            imu_pub = nh_->create_publisher<sensor_msgs::msg::Imu>("fsds/imu", 10);
         }
 
         if(enabled_sensors.gss){
-            gss_pub = nh_->create_publisher<geometry_msgs::msg::TwistWithCovarianceStamped>("gss", 10);
+            gss_pub = nh_->create_publisher<geometry_msgs::msg::TwistWithCovarianceStamped>("fsds/gss", 10);
         }
 
-        wheel_states_pub = nh_->create_publisher<fs_msgs::msg::WheelStates>("wheel_states", 10);
+        wheel_states_pub = nh_->create_publisher<fs_msgs::msg::WheelStates>("fsds/wheel_states", 10);
 
         bool UDP_control;
         nh_->get_parameter("UDP_control", UDP_control);
 
         if(UDP_control){
-            control_cmd_sub = nh_->create_subscription<fs_msgs::msg::ControlCommand>("control_command", 1, std::bind(&AirsimROSWrapper::car_control_cb, this, std::placeholders::_1));
+            control_cmd_sub = nh_->create_subscription<fs_msgs::msg::ControlCommand>("/fsds/control_command", 1, std::bind(&AirsimROSWrapper::car_control_cb, this, std::placeholders::_1));
         } else {
-            control_cmd_sub = nh_->create_subscription<fs_msgs::msg::ControlCommand>("control_command", 1, std::bind(&AirsimROSWrapper::car_control_cb, this, std::placeholders::_1));
+            control_cmd_sub = nh_->create_subscription<fs_msgs::msg::ControlCommand>("/fsds/control_command", 1, std::bind(&AirsimROSWrapper::car_control_cb, this, std::placeholders::_1));
         }
 
         if(!competition_mode_) {
-            odom_pub = nh_->create_publisher<nav_msgs::msg::Odometry>("testing_only/odom", 10);
-            track_pub = nh_->create_publisher<fs_msgs::msg::Track>("testing_only/track", 10);
-			extra_info_pub = nh_->create_publisher<fs_msgs::msg::ExtraInfo>("testing_only/extra_info", 10);
+            odom_pub = nh_->create_publisher<nav_msgs::msg::Odometry>("/fsds/testing_only/odom", 10);
+            track_pub = nh_->create_publisher<fs_msgs::msg::Track>("/fsds/testing_only/track", 10);
+			extra_info_pub = nh_->create_publisher<fs_msgs::msg::ExtraInfo>("/fsds/testing_only/extra_info", 10);
         }
         
         // iterate over camera map std::map<std::string, CameraSetting> cameras;
@@ -290,7 +290,7 @@ void AirsimROSWrapper::create_ros_pubs_from_settings_json()
                 set_nans_to_zeros_in_pose(*vehicle_setting, lidar_setting);
                 append_static_lidar_tf(curr_vehicle_name, sensor_name, lidar_setting); // todo is there a more readable way to down-cast?
                 lidar_names_vec_.push_back(sensor_name);
-                lidar_pub_vec_.push_back(nh_->create_publisher<sensor_msgs::msg::PointCloud2>("lidar/" + sensor_name, 10));
+                lidar_pub_vec_.push_back(nh_->create_publisher<sensor_msgs::msg::PointCloud2>("/fsds/lidar/" + sensor_name, 10));
                 lidar_pub_vec_statistics.push_back(ros_bridge::Statistics(sensor_name + "_Publisher"));
                 getLidarDataVecStatistics.push_back(ros_bridge::Statistics(sensor_name + "_RpcCaller"));
 
@@ -390,12 +390,13 @@ sensor_msgs::msg::PointCloud2 AirsimROSWrapper::get_lidar_msg_from_airsim(const 
     if (lidar_data.point_cloud.size() > 3)
     {
         lidar_msg.height = 1;
-        lidar_msg.width = lidar_data.point_cloud.size() / 3;
+        lidar_msg.width = lidar_data.point_cloud.size() / 4;
 
-        lidar_msg.fields.resize(3);
+        lidar_msg.fields.resize(4);
         lidar_msg.fields[0].name = "x";
         lidar_msg.fields[1].name = "y";
         lidar_msg.fields[2].name = "z";
+        lidar_msg.fields[3].name = "intensity";
         int offset = 0;
 
         for (size_t d = 0; d < lidar_msg.fields.size(); ++d, offset += 4)
@@ -459,9 +460,10 @@ void AirsimROSWrapper::car_control_cb(const fs_msgs::msg::ControlCommand& msg)
 {
     ros_bridge::ROSMsgCounter counter(&control_cmd_sub_statistics);
 
-    // Only allow positive braking and throttle commands to be passed through
+    // Only allow positive braking commands to be passed through
     CarApiBase::CarControls controls;
-    controls.throttle = msg.throttle < 0.0 ? 0.0 : msg.throttle;
+    if (msg.throttle < 0.0) controls.set_throttle(msg.throttle, false);
+    else controls.throttle = msg.throttle;
     controls.steering = msg.steering;
     controls.brake = msg.brake < 0.0 ? 0.0 : msg.brake;
     rclcpp::Time time = msg.header.stamp;

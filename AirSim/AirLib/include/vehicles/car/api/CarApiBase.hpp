@@ -49,7 +49,7 @@ public:
             }
             else
             {
-                is_manual_gear = false;
+                is_manual_gear = true;
                 manual_gear = -1;
                 throttle = -std::abs(throttle_val);
             }

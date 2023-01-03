@@ -60,7 +60,7 @@ private: //methods
             ground_truth.kinematics->pose.orientation, true);
 
         //add noise
-        addNoise(output.linear_acceleration, output.angular_velocity);
+        // addNoise(output.linear_acceleration, output.angular_velocity);
         // TODO: Add noise in orientation?
 
         output.time_stamp = clock()->nowNanos();
