@@ -10,7 +10,7 @@ from launch_ros.actions import Node
 CAMERA_FRAMERATE = 30.0
 
 def generate_launch_description():
-    with open(expanduser("~")+'/Formula-Student-Driverless-Simulator/settings.json', 'r') as file:
+    with open(expanduser("~")+'/QUTMS/Formula-Student-Driverless-Simulator/settings.json', 'r') as file:
         settings = json.load(file)
 
     camera_configs = settings['Vehicles']['FSCar']['Cameras']
