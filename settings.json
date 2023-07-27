@@ -27,8 +27,8 @@
                 },
                 "Lidar1": {
                     "SensorType": 6,
-                    "Enabled": true,
-                    "X": 1.65, "Y": 0, "Z": 0.05,
+                    "Enabled": false,
+                    "X": 1.59, "Y": 0, "Z": 0.05,
                     "Roll": 0, "Pitch": 0, "Yaw" : 0,
                     "NumberOfLasers": 1,
                     "PointsPerScan": 1000,
@@ -41,8 +41,8 @@
                 },
                 "Lidar2": {
                     "SensorType": 6,
-                    "Enabled": true,
-                    "X": 1.65, "Y": 0, "Z": 0.05,
+                    "Enabled": false,
+                    "X": 1.59, "Y": 0, "Z": 0.05,
                     "Roll": 0, "Pitch": 0, "Yaw" : 0,
                     "NumberOfLasers": 32,
                     "PointsPerScan": 32000,
@@ -66,9 +66,9 @@
                         "Height": 360,
                         "FOV_Degrees": 90
                     }],
-                    "X": -0.1,
+                    "X": -0.37,
                     "Y": 0,
-                    "Z": 0.7,
+                    "Z": 0.9,
                     "Pitch": 0.0,
                     "Roll": 0.0,
                     "Yaw": 0.0
@@ -80,9 +80,9 @@
                         "Height": 360,
                         "FOV_Degrees": 90
                     }],
-                    "X": -0.1,
+                    "X": -0.37,
                     "Y": 0,
-                    "Z": 0.7,
+                    "Z": 0.9,
                     "Pitch": 0.0,
                     "Roll": 0.0,
                     "Yaw": 0.0
